@@ -11,7 +11,7 @@
 
 ```
 cd /etc/ansible/roles/
-git clone https://github.com/tranquilit/tranquilit.waptserver
+git clone https://github.com/tranquilit/ansible.waptserver
 ```
 
 * ensure you have a working ssh key deployed as root on your WAPT server, if not you can generate and copy one like so :
