@@ -1,0 +1,8 @@
+---
+- name: Launch silent WAPT postconf
+  shell: "/opt/wapt/waptserver/scripts/postconf.sh -q"
+  register: postconf_output
+  args:
+    warn: false
+
+- debug: msg="{{ postconf_output.stdout.split('\n')| last }}"

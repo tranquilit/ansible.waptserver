@@ -1,0 +1,25 @@
+---
+#Debian
+- name: Install dependencies
+  include: install_dependencies_Debian.yml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: Install WAPT Server for Debian distros
+  include: install_waptserver_Debian.yml
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+#CentOS
+
+- name: Install dependencies
+  include: install_dependencies_CentOS.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+- name: Install WAPT Server for CentOS distros
+  include: install_waptserver_CentOS.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+#PostConf
+
+- name: Launch silent WAPT postconfiguration
+  include: postconf.yml
+  when: launch_postconf
