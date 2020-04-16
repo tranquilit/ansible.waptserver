@@ -1,6 +1,6 @@
 ---
 - name: Launch silent WAPT postconf
-  shell: "/opt/wapt/waptserver/scripts/postconf.sh -q"
+  script: /opt/wapt/waptserver/scripts/postconf.sh -q
   register: postconf_output
   args:
     warn: false

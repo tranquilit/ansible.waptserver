@@ -10,4 +10,4 @@ debian_gpg_key: "https://wapt.tranquil.it/repositories/tiswapt-pub.gpg"
 centos_gpg_key: "https://wapt.tranquil.it/{{ centos_version }}/RPM-GPG-KEY-TISWAPT-7"
 postgresql_data_dir: "/var/lib/pgsql/{{ pgsql_version }}/data"
 postgresql_bin_path: "/usr/pgsql-{{ pgsql_version }}/bin"
-launch_postconf: True
+launch_postconf: true

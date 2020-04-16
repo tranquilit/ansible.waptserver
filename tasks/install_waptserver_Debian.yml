@@ -1,6 +1,6 @@
 ---
 - name: remove old wapt sources.list
-  file: 
+  file:
     path: "{{ debian_wapt_sources_list }}"
     state: absent
 
@@ -18,34 +18,33 @@
     url: "{{ debian_gpg_key }}"
 
 - name: "adding tis-wapt repository for WAPT {{ wapt_version }}"
-  apt_repository: 
-    repo: "deb {{ debian_wapt_source }} {{ansible_distribution_release}} main"
+  apt_repository:
+    repo: "deb {{ debian_wapt_source }} {{ ansible_distribution_release }} main"
     state: present
-    filename: '{{debian_wapt_sources_list}}'
+    filename: '{{ debian_wapt_sources_list }}'
 
 - name: apt-get update
   apt:
     update_cache: yes
 
-- name: "install tis-waptserver {{wapt_version}} packages"
-  apt: 
+- name: "install tis-waptserver {{ wapt_version }} packages"
+  apt:
     pkg:
-    - tis-waptserver
-    - tis-waptsetup
-    state: latest
+      - tis-waptserver
+      - tis-waptsetup
+    state: present
     update_cache: yes
 
 - name: enable WAPT server services
-  service: name={{item}} enabled=yes
+  service: name={{ item }} enabled=yes
   with_items:
-      - postgresql
-      - waptserver
-      - nginx
+    - postgresql
+    - waptserver
+    - nginx
 
 - name: start WAPT server services
-  service: name={{item}} state=started
+  service: name={{ item }} state=started
   with_items:
-      - postgresql
-      - nginx
-      - waptserver
-
+    - postgresql
+    - nginx
+    - waptserver

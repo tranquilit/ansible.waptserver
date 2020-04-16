@@ -1,5 +1,5 @@
 ---
-#Debian
+# Debian
 - name: Install dependencies
   include: install_dependencies_Debian.yml
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
@@ -8,7 +8,7 @@
   include: install_waptserver_Debian.yml
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-#CentOS
+# CentOS
 
 - name: Install dependencies
   include: install_dependencies_CentOS.yml
@@ -18,7 +18,7 @@
   include: install_waptserver_CentOS.yml
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-#PostConf
+# PostConf
 
 - name: Launch silent WAPT postconfiguration
   include: postconf.yml
