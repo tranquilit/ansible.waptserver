@@ -1,5 +1,0 @@
-[wapt]
-name=WAPT Server Repo
-baseurl="{{ centos_wapt_source }}"
-enabled=1
-gpgcheck=0

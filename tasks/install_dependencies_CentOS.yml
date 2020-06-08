@@ -3,14 +3,11 @@
   yum:
     name: '*'
     state: latest
+    update_cache: yes
   tags:
     - yum_update
 
 - name: install waptserver dependencies
   yum:
-    name:
-      - epel-release
-      - wget
-      - sudo
-      - htop
-    state: present
+    name: [ 'epel-release', 'wget', 'sudo', 'htop']
+    state: latest
