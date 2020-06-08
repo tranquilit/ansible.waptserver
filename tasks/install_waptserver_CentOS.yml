@@ -1,44 +1,30 @@
 ---
-- name: remove old wapt sources.list
-  file:
-    path: "{{ centos_wapt_sources_list }}"
-    state: absent
-
-- name: adding tis-wapt GPG key
-  rpm_key:
-    state: present
-    key: "{{ centos_gpg_key }}"
-
-- name: adding tis-wapt repository
-  yum_repository:
-    name: wapt
-    description: WAPT Server Repo
-    file: wapt
-    baseurl: "{{ centos_wapt_source }}"
-    gpgcheck: no
-    enabled: yes
+- name: Install tis wapt repo².
+  template:
+    src: templates/wapt.j2
+    dest: /etc/yum.repos.d/wapt.repo
+    owner: root
+    group: root
+    backup: no
+    mode: 0644
 
 - name: yum update
   yum:
     name: '*'
     state: latest
+    update_cache: yes
   tags:
     - yum_update
 
 - name: "Install postgresql-{{ pgsql_version }}"
   yum:
-    name:
-      - postgresql96-server
-      - postgresql96-contrib
-      - cabextract
-    state: present
+    name: [ 'postgresql96-server', 'postgresql96-contrib', 'cabextract' ]
+    state: latest
 
 - name: "install tis-waptserver {{ wapt_version }} packages"
   yum:
-    name:
-      - tis-waptserver
-      - tis-waptsetup
-    state: present
+    name: [ 'tis-waptserver', 'tis-waptsetup' ]
+    state: latest
 
 - name: Check if PostgreSQL database is initialized.
   stat:
@@ -51,16 +37,12 @@
   args:
     warn: false
 
-- name: enable WAPT server services
-  service: name={{ item }} enabled=yes
-  with_items:
-    - "postgresql-{{ pgsql_version }}"
-    - waptserver
-    - nginx
-
 - name: start WAPT server services
-  service: name={{ item }} state=started
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
   with_items:
     - "postgresql-{{ pgsql_version }}"
-    - nginx
     - waptserver
+    - nginx
