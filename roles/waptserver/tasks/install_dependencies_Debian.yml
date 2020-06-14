@@ -1,34 +1,16 @@
 ---
-- name: apt-get update
-  apt:
-    update_cache: yes
-
 - name: apt-get upgrade
   apt:
     name: "*"
     state: latest
-  environment:
-    DEBIAN_FRONTEND: noninteractive
-  tags:
-    - apt_update_upgrade
+    update_cache: yes
+  tags: apt_update_upgrade
 
 - name: install waptserver dependencies
   apt:
-    pkg:
-      - apt-transport-https
-      - dirmngr
-      - nginx
-      - dialog
-      - python-tz
-      - cabextract
-      - sudo
-      - python-psutil
-      - krb5-user
-      - msktutil
-      - python-pyparsing
-      - lsb-release
-      - htop
-    state: present
-    update_cache: yes
-  environment:
-    DEBIAN_FRONTEND: noninteractive
+    pkg: [ 'apt-transport-https', 'dirmngr', 'nginx'
+           'dialog', 'python-tz', 'cabextract'
+           'sudo', 'python-psutil', 'krb5-user'
+           'msktutil', 'python-pyparsing'
+           'lsb-release', 'htop', 'aptitude' ]
+    state: latest
