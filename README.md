@@ -7,10 +7,11 @@
 
 ## Install WAPT on a remote server
 
-* git clone and install that role in `/etc/ansible/roles`
+* git clone
+Clone the repository in a working directory
 
 ```
-cd /etc/ansible/roles/
+cd /working/dir/
 git clone https://github.com/tranquilit/ansible.waptserver
 ```
 
@@ -20,34 +21,32 @@ git clone https://github.com/tranquilit/ansible.waptserver
 ssh-keygen -t ed25519
 ssh-copy-id -i id_ed25519.pub root@srvwapt.mydomain.lan
 ```
+Go to production/inventory and/or staging/inventory and add your private key in
+ansible_ssh_private_key_file
 
-* add you WAPT server to Ansible hosts file
 
-```
-[srvwapt]
-srvwapt.mydomain.lan ansible_host=192.168.1.40
-```
 
-* create a playbook with the following content in `/etc/ansible/playbooks/wapt.yml` :
+* Run your playbook with the following commands :
 
 ```
-- hosts: srvwapt
-  roles:
-    - { role: tranquilit.waptserver }
-```
+ansible-playbook site.yml -i staging
 
-* run your playbook with the following command :
+ansible-playbook site.yml -i production
+```
+You can deactivate the postconf launch with
 
 ```
-cd /etc/ansible/
-ansible-playbook -i hosts playbooks/wapt.yml
+ansible-playbook site.yml -i staging  -e "launch_postconf='false'"
+
+ansible-playbook site.yml -i production  -e "launch_postconf='false'"
+
 ```
 
 That's it WAPT is installed on your server !
 
 ## Role Variables
 
-Available variables are listed below, along with default values (see `defaults/main.yml`):
+Available variables are listed below, along with default values (see `roles/waptserver/defaults/main.yml`):
 
 ### WAPT server vars
 
@@ -70,11 +69,3 @@ CentOS version used for RPM repository address
 ## Dependencies
 
 None.
-
-## Example Playbook
-
-    - hosts: hosts
-      vars_files:
-        - vars/main.yml
-      roles:
-        - tranquilit.waptserver
