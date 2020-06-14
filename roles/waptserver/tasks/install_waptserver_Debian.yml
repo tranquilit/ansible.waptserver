@@ -23,28 +23,18 @@
     state: present
     filename: '{{ debian_wapt_sources_list }}'
 
-- name: apt-get update
-  apt:
-    update_cache: yes
-
 - name: "install tis-waptserver {{ wapt_version }} packages"
   apt:
-    pkg:
-      - tis-waptserver
-      - tis-waptsetup
-    state: present
+    pkg: [ 'tis-waptserver', 'tis-waptsetup' ]
+    state: latest
     update_cache: yes
 
 - name: enable WAPT server services
-  service: name={{ item }} enabled=yes
+  systemd:
+    name: {{ item }}
+    enabled: yes
+    state: started
   with_items:
     - postgresql
     - waptserver
     - nginx
-
-- name: start WAPT server services
-  service: name={{ item }} state=started
-  with_items:
-    - postgresql
-    - nginx
-    - waptserver

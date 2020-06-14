@@ -1,0 +1,6 @@
+---
+- name: Wapt server installation.
+  hosts: waptserver
+  gather_facts: yes
+  roles:
+    - waptserver
